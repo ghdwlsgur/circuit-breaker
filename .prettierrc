@@ -8,5 +8,13 @@
   "tabWidth": 2,
   "trailingComma": "all",
   "printWidth": 80,
-  "endOfLine": "auto" 
+  "endOfLine": "auto",
+  "overrides": [
+    {
+      "files": "*.ts",
+      "options": {
+        "parser": "typescript"
+      }
+    }
+  ]
 }
