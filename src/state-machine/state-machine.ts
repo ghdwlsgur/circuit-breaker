@@ -29,4 +29,21 @@ class CircuitBreakerStateMachine {
       event === matchEvent ? this.matched(fn()) : this.match(matchEvent),
     transition: () => this,
   });
+
+  private transitionTo = (nextState: CircuitBreakerState) =>
+    new CircuitBreakerStateMachine(
+      nextState,
+      this.isThresholdReached,
+      this.isTimeoutReached,
+    );
+
+  private transitionFromClosed = (closed: ClosedCircuit, event: Event) =>
+    this.match(event)
+      .on('CallSucceed', () => closed.reset())
+      .on('CallFailed', () =>
+        this.isThresholdReached(closed.failCount + 1)
+          ? closed.trip()
+          : closed.increaseFails(),
+      )
+      .transition();
 }
