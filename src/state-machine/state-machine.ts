@@ -46,4 +46,33 @@ class CircuitBreakerStateMachine {
           : closed.increaseFails(),
       )
       .transition();
+
+  private nextStateFromHalfOpen = (halfOpen: HalfOpenCircuit, event: Event) =>
+    this.match(event)
+      .on('CallSucceed', () => halfOpen.reset())
+      .on('CallFailed', () => halfOpen.trip())
+      .transition();
+
+  private nextStateFromOpen = (open: OpenCircuit, event: Event) =>
+    this.match(event)
+      .on('BeforeCallSignal', () =>
+        this.isTimeoutReached(open) ? open.tryReset() : open,
+      )
+      .transition();
+
+  public shouldFailFast = () => !this.currentState.isCallPermitted();
+
+  public transition(event: Event): CircuitBreakerStateMachine {
+    if (this.currentState instanceof ClosedCircuit)
+      return this.transitionFromClosed(this.currentState, event);
+    else if (this.currentState instanceof OpenCircuit)
+      return this.nextStateFromOpen(this.currentState, event);
+    else
+      return this.nextStateFromHalfOpen(
+        this.currentState as HalfOpenCircuit,
+        event,
+      );
+  }
 }
+
+export { Event, CircuitBreakerStateMachine };
