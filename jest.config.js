@@ -1,12 +1,12 @@
-module.exports = {
-  preset: "ts-jest",
-  testEnvironment: "node",
-  rootDir: "src",
+export default {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  rootDir: 'src',
   transform: {
-    "^.+\\.(t|j)s$": "ts-jest",
+    '^.+\\.(t|j)s$': 'ts-jest',
   },
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)x?$",
-  coverageDirectory: "coverage",
-  collectCoverageFrom: ["src/**/*.{ts,tsx,js,jsx}", "!src/**/*.d.ts"],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)x?$',
+  coverageDirectory: 'coverage',
+  collectCoverageFrom: ['src/**/*.{ts,tsx,js,jsx}', '!src/**/*.d.ts'],
 };
