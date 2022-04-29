@@ -3,6 +3,7 @@ const nowSupplier = () => new Date();
 interface CircuitBreakerState {
   isCallPermitted(): boolean;
 }
+// 코드리뷰 테스트
 
 class ClosedCircuit implements CircuitBreakerState {
   constructor(readonly failCount: number = 0) {}
