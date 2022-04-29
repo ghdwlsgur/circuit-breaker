@@ -52,4 +52,18 @@ class ClosedCircuit implements CircuitBreakerState {
   public isCallPermitted = () => true;
 }
 
+/** 정리
+ * 오픈 상태를 의미하는 Class인 OpenCircuit에서 tryReset 메서드 호출시 HalfOpenCircuit
+ * 객체 인스턴스를 생성하여 오픈된 상태에서 반 닫힌 상태를 의미하며 HalfOpenCircuit에서 다시 reset
+ * 메서드를 호출할 경우 닫힌 상태를 의미하는 ClosedCircuit 인스턴스를 생성한다.
+ *
+ * 각각의 클래스에서는 모두 인터페이스 메서드를 다르게 정의하였다.
+ * OpenCircuit 클래스에서는 false를 리턴, 그 외 다른 클래스들은 모두 true를 리턴한다.
+ * HalfOpenCircuit와 ClosedCircuit 클래스에서 모두 공통적으로 trip 메서드를 호출할 경우
+ * OpenCircuit 객체 인스턴스를 생성한다.
+ *
+ * 즉, 반 닫힌 상태 또는 닫힌 상태에서 trip은 Open상태로의 전환을 의미하며
+ * 완전히 오픈된 상태에서 닫힌 상태로의 전환은 반 닫힌 상태 => 닫힌 상태로의 전환 순서를 유지한다.
+ */
+
 export { CircuitBreakerState, ClosedCircuit, OpenCircuit, HalfOpenCircuit };
